@@ -1,29 +1,29 @@
-// Aqui temos as variáveis globais
+/* Aqui temos as variáveis globais */
 let produtos = [];
 let produtoEditando = null;
 let proximoCodigo = 1;
 
-// Elementos do DOM
+/* Elementos do DOM */
 const formProduto = document.getElementById('formProduto');
 const btnSalvar = document.getElementById('btnSalvar');
 const btnCancelar = document.getElementById('btnCancelar');
 const campoBusca = document.getElementById('campoBusca');
 const corpoTabela = document.getElementById('corpoTabela');
 
-// Event Listeners
+/* Event Listeners */
 document.addEventListener('DOMContentLoaded', inicializar);
 formProduto.addEventListener('submit', salvarProduto);
 btnCancelar.addEventListener('click', cancelarEdicao);
 campoBusca.addEventListener('input', filtrarProdutos);
 
-// Inicialização
+/* Inicialização */
 function inicializar() {
     carregarProdutos();
     atualizarProximoCodigo();
     renderizarTabela();
 }
 
-// Carrega produtos do localStorage
+/* Carrega produtos do localStorage */
 function carregarProdutos() {
     const produtosSalvos = localStorage.getItem('listaProdutos');
     if (produtosSalvos) {
@@ -31,12 +31,12 @@ function carregarProdutos() {
     }
 }
 
-// Salva produtos no localStorage
+/* Salva produtos no localStorage */
 function salvarProdutos() {
     localStorage.setItem('listaProdutos', JSON.stringify(produtos));
 }
 
-// Atualiza o próximo código disponível
+/* Atualiza o próximo código disponível */
 function atualizarProximoCodigo() {
     if (produtos.length > 0) {
         const maiorCodigo = Math.max(...produtos.map(p => p.codigo));
@@ -44,7 +44,7 @@ function atualizarProximoCodigo() {
     }
 }
 
-// Salva ou atualiza produto
+/* Salva ou atualiza produto */
 function salvarProduto(event) {
     event.preventDefault();
     
@@ -57,19 +57,20 @@ function salvarProduto(event) {
         ativo: formData.has('ativo')
     };
 
-    // Validações
+    /* Validações */
     if (!validarDados(dadosProduto)) {
         return;
     }
 
     if (produtoEditando) {
-        // Atualizar produto existente
+        /* Atualizar produto existente */
         const index = produtos.findIndex(p => p.codigo === produtoEditando.codigo);
         produtos[index] = { ...dadosProduto, codigo: produtoEditando.codigo };
         mostrarMensagem('Produto atualizado com sucesso!', 'success');
         cancelarEdicao();
     } else {
-        // Criar novo produto
+        
+        /* Criar novo produto */
         const novoProduto = {
             ...dadosProduto,
             codigo: proximoCodigo
@@ -85,15 +86,16 @@ function salvarProduto(event) {
     renderizarTabela();
 }
 
-// Valida os dados do produto
+/* Valida os dados do produto */
 function validarDados(dados) {
-    // Validar nome do produto
+    
+    /* Validar nome do produto */
     if (!dados.nomeProduto || dados.nomeProduto.length < 2) {
         mostrarMensagem('Nome do produto deve ter pelo menos 2 caracteres.', 'error');
         return false;
     }
 
-    // Validar se nome já existe (exceto quando editando)
+    /* Validar se nome já existe (exceto quando editando) */
     const nomeExistente = produtos.find(p => 
         p.nomeProduto.toLowerCase() === dados.nomeProduto.toLowerCase() && 
         (!produtoEditando || p.codigo !== produtoEditando.codigo)
@@ -103,27 +105,27 @@ function validarDados(dados) {
         return false;
     }
 
-    // Validar unidade
+    /* Validar unidade */
     const unidadesValidas = ['un', 'kg', 'lt', 'mt', 'pc'];
     if (!unidadesValidas.includes(dados.unidade)) {
         mostrarMensagem('Selecione uma unidade válida.', 'error');
         return false;
     }
 
-    // Validar quantidade
+    /* Validar quantidade */
     if (!dados.quantidade || dados.quantidade <= 0) {
         mostrarMensagem('Quantidade deve ser maior que zero.', 'error');
         return false;
     }
 
-    // Validar código de barra (se fornecido)
+    /* Validar código de barra (se fornecido) */
     if (dados.codigoBarra) {
         if (!/^\d{13}$/.test(dados.codigoBarra)) {
             mostrarMensagem('Código de barra deve conter exatamente 13 dígitos numéricos.', 'error');
             return false;
         }
 
-        // Verificar se código de barra já existe
+        /* Verificar se código de barra já existe */
         const codigoExistente = produtos.find(p => 
             p.codigoBarra === dados.codigoBarra && 
             (!produtoEditando || p.codigo !== produtoEditando.codigo)
@@ -137,7 +139,7 @@ function validarDados(dados) {
     return true;
 }
 
-// Renderiza a tabela de produtos
+/* Renderiza a tabela de produtos */
 function renderizarTabela(produtosFiltrados = null) {
     const produtosParaExibir = produtosFiltrados || produtos;
     
@@ -176,7 +178,7 @@ function renderizarTabela(produtosFiltrados = null) {
     `).join('');
 }
 
-// Obtém descrição da unidade
+/* Obtém descrição da unidade */
 function obterDescricaoUnidade(unidade) {
     const unidades = {
         'un': 'Unidade',
@@ -188,29 +190,29 @@ function obterDescricaoUnidade(unidade) {
     return unidades[unidade] || unidade;
 }
 
-// Edita produto
+/* Edita produto */
 function editarProduto(codigo) {
     const produto = produtos.find(p => p.codigo === codigo);
     if (!produto) return;
 
     produtoEditando = produto;
     
-    // Preencher formulário
+    /* Preencher formulário */
     document.getElementById('nomeProduto').value = produto.nomeProduto;
     document.getElementById('unidade').value = produto.unidade;
     document.getElementById('quantidade').value = produto.quantidade;
     document.getElementById('codigoBarra').value = produto.codigoBarra || '';
     document.getElementById('ativo').checked = produto.ativo;
 
-    // Alterar botão
+    /* Alterar botão */
     btnSalvar.textContent = 'Atualizar Produto';
     btnSalvar.className = 'btn-warning';
     
-    // Scroll para o formulário
+    /* Scroll para o formulário */
     formProduto.scrollIntoView({ behavior: 'smooth' });
 }
 
-// Cancela edição
+/* Cancela edição */
 function cancelarEdicao() {
     produtoEditando = null;
     formProduto.reset();
@@ -219,13 +221,14 @@ function cancelarEdicao() {
     btnSalvar.className = 'btn-primary';
 }
 
-// Exclui produto
+/* Exclui produto */
 function excluirProduto(codigo) {
     const produto = produtos.find(p => p.codigo === codigo);
     if (!produto) return;
 
     if (confirm(`Tem certeza que deseja excluir o produto "${produto.nomeProduto}"?`)) {
-        // Verificar se produto está em alguma lista de compras
+        
+        /* Verificar se produto está em alguma lista de compras */
         const listaCompras = JSON.parse(localStorage.getItem('listaCompras') || '[]');
         const produtoNaLista = listaCompras.find(item => item.codigoProduto === codigo);
         
@@ -233,7 +236,8 @@ function excluirProduto(codigo) {
             if (!confirm('Este produto está na sua lista de compras atual. Deseja excluir mesmo assim? Ele será removido da lista.')) {
                 return;
             }
-            // Remove da lista de compras
+            
+            /* Remove da lista de compras */
             const novaListaCompras = listaCompras.filter(item => item.codigoProduto !== codigo);
             localStorage.setItem('listaCompras', JSON.stringify(novaListaCompras));
         }
@@ -245,7 +249,7 @@ function excluirProduto(codigo) {
     }
 }
 
-// Filtra produtos na tabela
+/* Filtra produtos na tabela */
 function filtrarProdutos() {
     const termo = campoBusca.value.toLowerCase().trim();
     
@@ -263,13 +267,14 @@ function filtrarProdutos() {
     renderizarTabela(produtosFiltrados);
 }
 
-// Mostra mensagens para o usuário
+/* Mostra mensagens para o usuário */
 function mostrarMensagem(mensagem, tipo = 'info') {
-    // Remove mensagens existentes
+    
+    /* Remove mensagens existentes */
     const mensagensExistentes = document.querySelectorAll('.mensagem-sistema');
     mensagensExistentes.forEach(msg => msg.remove());
 
-    // Cria nova mensagem
+    /* Cria nova mensagem */
     const divMensagem = document.createElement('div');
     divMensagem.className = `mensagem-sistema mensagem-${tipo}`;
     divMensagem.innerHTML = `
@@ -277,7 +282,7 @@ function mostrarMensagem(mensagem, tipo = 'info') {
         <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer; margin-left: 1rem;">&times;</button>
     `;
 
-    // Adiciona estilos
+    /* Adiciona estilos */
     Object.assign(divMensagem.style, {
         position: 'fixed',
         top: '20px',
@@ -294,7 +299,7 @@ function mostrarMensagem(mensagem, tipo = 'info') {
         animation: 'slideInRight 0.3s ease'
     });
 
-    // Define cor baseada no tipo
+    /* Define cor baseada no tipo */
     switch (tipo) {
         case 'success':
             divMensagem.style.backgroundColor = '#28a745';
@@ -312,7 +317,7 @@ function mostrarMensagem(mensagem, tipo = 'info') {
 
     document.body.appendChild(divMensagem);
 
-    // Remove automaticamente após 5 segundos
+    /* Remove automaticamente após 5 segundos */
     setTimeout(() => {
         if (divMensagem.parentElement) {
             divMensagem.style.animation = 'slideOutRight 0.3s ease';
@@ -321,7 +326,7 @@ function mostrarMensagem(mensagem, tipo = 'info') {
     }, 5000);
 }
 
-// Adiciona estilos para as animações das mensagens
+/* Adiciona estilos para as animações das mensagens */
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideInRight {
