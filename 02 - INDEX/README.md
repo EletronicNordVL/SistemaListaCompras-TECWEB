@@ -2,13 +2,9 @@
 
 Este módulo abriga a **página de boas-vindas e portal de navegação** do sistema.
 
----
-
 ## 📄 Arquivos Presentes
 
 - **`index.html`**: Landing page contendo a apresentação dos recursos do sistema, estilo embutido para cartões e botões de atalho.
-
----
 
 ## ⚙️ Funcionalidades e Destaques
 
