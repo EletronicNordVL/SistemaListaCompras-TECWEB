@@ -1,8 +1,8 @@
-// Variáveis globais
+/* Variáveis globais */
 let produtos = [];
 let listaCompras = [];
 
-// Elementos do DOM
+/* Elementos do DOM */
 const btnAdicionarItem = document.getElementById('btnAdicionarItem');
 const btnEnviarServidor = document.getElementById('btnEnviarServidor');
 const btnLimparLista = document.getElementById('btnLimparLista');
@@ -10,7 +10,7 @@ const listaComprasContainer = document.getElementById('listaCompras');
 const progressoTexto = document.getElementById('progressoTexto');
 const barraProgresso = document.getElementById('barraProgresso');
 
-// Modal elementos
+/* Modal elementos */
 const modalAdicionar = document.getElementById('modalAdicionar');
 const modalConfirmacao = document.getElementById('modalConfirmacao');
 const closeModal = document.getElementById('closeModal');
@@ -21,7 +21,7 @@ const btnCancelarAdicao = document.getElementById('btnCancelarAdicao');
 const btnConfirmarEnvio = document.getElementById('btnConfirmarEnvio');
 const btnCancelarEnvio = document.getElementById('btnCancelarEnvio');
 
-// Event Listeners
+/* Event Listeners */
 document.addEventListener('DOMContentLoaded', inicializar);
 btnAdicionarItem.addEventListener('click', abrirModalAdicionar);
 btnEnviarServidor.addEventListener('click', abrirModalConfirmacao);
@@ -32,7 +32,7 @@ btnCancelarAdicao.addEventListener('click', fecharModalAdicionar);
 btnConfirmarEnvio.addEventListener('click', enviarParaServidor);
 btnCancelarEnvio.addEventListener('click', fecharModalConfirmacao);
 
-// Fechar modal ao clicar fora
+/* Fechar modal ao clicar fora */
 window.addEventListener('click', (event) => {
     if (event.target === modalAdicionar) {
         fecharModalAdicionar();
@@ -42,7 +42,7 @@ window.addEventListener('click', (event) => {
     }
 });
 
-// Inicialização
+/* Inicialização */
 function inicializar() {
     carregarDados();
     preencherSelectProdutos();
@@ -50,31 +50,32 @@ function inicializar() {
     atualizarProgresso();
 }
 
-// Carrega dados do localStorage
+/* Carrega dados do localStorage */
 function carregarDados() {
-    // Carregar produtos cadastrados
+    
+    /* Carregar produtos cadastrados */
     const produtosSalvos = localStorage.getItem('listaProdutos');
     if (produtosSalvos) {
         produtos = JSON.parse(produtosSalvos).filter(p => p.ativo);
     }
 
-    // Carregar lista de compras atual
+    /* Carregar lista de compras atual */
     const listaSalva = localStorage.getItem('listaCompras');
     if (listaSalva) {
         listaCompras = JSON.parse(listaSalva);
     }
 }
 
-// Salva lista de compras no localStorage
+/* Salva lista de compras no localStorage */
 function salvarListaCompras() {
     localStorage.setItem('listaCompras', JSON.stringify(listaCompras));
 }
 
-// Preenche select com produtos ativos
+/* Preenche select com produtos ativos */
 function preencherSelectProdutos() {
     selectProduto.innerHTML = '<option value="">Escolha um produto</option>';
     
-    // Filtrar produtos que não estão na lista
+    /* Filtrar produtos que não estão na lista */
     const produtosDisponiveis = produtos.filter(produto => 
         !listaCompras.some(item => item.codigoProduto === produto.codigo)
     );
@@ -86,7 +87,7 @@ function preencherSelectProdutos() {
         selectProduto.appendChild(option);
     });
 
-    // Desabilitar botão se não há produtos disponíveis
+    /* Desabilitar botão se não há produtos disponíveis */
     btnAdicionarItem.disabled = produtosDisponiveis.length === 0;
     if (produtosDisponiveis.length === 0) {
         btnAdicionarItem.title = 'Todos os produtos ativos já estão na lista ou não há produtos cadastrados';
@@ -95,7 +96,7 @@ function preencherSelectProdutos() {
     }
 }
 
-// Obtém descrição da unidade
+/* Obtém descrição da unidade */
 function obterDescricaoUnidade(unidade) {
     const unidades = {
         'un': 'Un',
@@ -107,7 +108,7 @@ function obterDescricaoUnidade(unidade) {
     return unidades[unidade] || unidade;
 }
 
-// Abre modal para adicionar item
+/* Abre modal para adicionar item */
 function abrirModalAdicionar() {
     if (produtos.length === 0) {
         mostrarMensagem('Não há produtos cadastrados. Cadastre produtos primeiro.', 'warning');
@@ -119,19 +120,19 @@ function abrirModalAdicionar() {
     selectProduto.focus();
 }
 
-// Fecha modal de adicionar
+/* Fecha modal de adicionar */
 function fecharModalAdicionar() {
     modalAdicionar.style.display = 'none';
     selectProduto.value = '';
     quantidadeNecessaria.value = '';
 }
 
-// Adiciona item à lista de compras
+/* Adiciona item à lista de compras */
 function adicionarItemLista() {
     const codigoProduto = parseInt(selectProduto.value);
     const quantidade = parseFloat(quantidadeNecessaria.value);
 
-    // Validações
+    /* Validações */
     if (!codigoProduto) {
         mostrarMensagem('Selecione um produto.', 'error');
         return;
@@ -148,13 +149,13 @@ function adicionarItemLista() {
         return;
     }
 
-    // Verificar se já está na lista
+    /* Verificar se já está na lista */
     if (listaCompras.some(item => item.codigoProduto === codigoProduto)) {
         mostrarMensagem('Este produto já está na lista.', 'warning');
         return;
     }
 
-    // Adicionar à lista
+    /* Adicionar à lista */
     const novoItem = {
         codigoProduto: produto.codigo,
         nomeProduto: produto.nomeProduto,
@@ -172,7 +173,7 @@ function adicionarItemLista() {
     mostrarMensagem(`${produto.nomeProduto} adicionado à lista!`, 'success');
 }
 
-// Renderiza a lista de compras
+/* Renderiza a lista de compras */
 function renderizarLista() {
     if (listaCompras.length === 0) {
         listaComprasContainer.innerHTML = `
@@ -220,12 +221,12 @@ function renderizarLista() {
     `).join('');
 }
 
-// Atualiza quantidade comprada
+/* Atualiza quantidade comprada */
 function atualizarQuantidade(index, valor) {
     const quantidade = parseFloat(valor) || 0;
     listaCompras[index].quantidadeComprada = quantidade;
     
-    // Verificar se foi coletado (quantidade comprada >= necessária)
+    /* Verificar se foi coletado (quantidade comprada >= necessária) */
     const item = listaCompras[index];
     const foiColetado = quantidade >= item.quantidadeNecessaria;
     
@@ -242,7 +243,7 @@ function atualizarQuantidade(index, valor) {
     atualizarProgresso();
 }
 
-// Remove item da lista
+/* Remove item da lista */
 function removerItem(index) {
     const item = listaCompras[index];
     
@@ -256,7 +257,7 @@ function removerItem(index) {
     }
 }
 
-// Atualiza barra de progresso
+/* Atualiza barra de progresso */
 function atualizarProgresso() {
     const totalItens = listaCompras.length;
     const itensColetados = listaCompras.filter(item => item.coletado).length;
@@ -266,7 +267,7 @@ function atualizarProgresso() {
     const porcentagem = totalItens > 0 ? (itensColetados / totalItens) * 100 : 0;
     barraProgresso.style.width = `${porcentagem}%`;
     
-    // Habilitar botão de envio se todos os itens foram coletados
+    /* Habilitar botão de envio se todos os itens foram coletados */
     btnEnviarServidor.disabled = totalItens === 0 || itensColetados < totalItens;
     
     if (totalItens > 0 && itensColetados === totalItens) {
@@ -274,7 +275,7 @@ function atualizarProgresso() {
     }
 }
 
-// Limpa toda a lista
+/* Limpa toda a lista */
 function limparLista() {
     if (listaCompras.length === 0) {
         mostrarMensagem('A lista já está vazia.', 'info');
@@ -291,17 +292,17 @@ function limparLista() {
     }
 }
 
-// Abre modal de confirmação de envio
+/* Abre modal de confirmação de envio */
 function abrirModalConfirmacao() {
     modalConfirmacao.style.display = 'block';
 }
 
-// Fecha modal de confirmação
+/* Fecha modal de confirmação */
 function fecharModalConfirmacao() {
     modalConfirmacao.style.display = 'none';
 }
 
-// Envia lista para o servidor (mockapi.io)
+/* Envia lista para o servidor (mockapi.io) */
 async function enviarParaServidor() {
     const API_URL = 'https://684f7ca9e7c42cfd1794cf70.mockapi.io/Compras';
     
@@ -309,10 +310,10 @@ async function enviarParaServidor() {
         btnConfirmarEnvio.disabled = true;
         btnConfirmarEnvio.textContent = 'Enviando...';
         
-        // Preparar dados para envio
+        /* Preparar dados para envio */
         const dadosEnvio = {
-            codCompras: Date.now(), // Usar timestamp como código único
-            data: new Date().toISOString().split('T')[0], // Data atual
+            codCompras: Date.now(), /* Usar timestamp como código único */
+            data: new Date().toISOString().split('T')[0], /* Data atual */
             produtos: listaCompras.map(item => ({
                 codigoProduto: item.codigoProduto,
                 nomeProduto: item.nomeProduto,
@@ -323,7 +324,7 @@ async function enviarParaServidor() {
             }))
         };
         
-        // Fazer requisição POST
+        /* Fazer requisição POST */
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
@@ -338,7 +339,7 @@ async function enviarParaServidor() {
         
         const resultado = await response.json();
         
-        // Sucesso - limpar lista
+        /* Sucesso - limpar lista */
         listaCompras = [];
         salvarListaCompras();
         renderizarLista();
@@ -357,13 +358,14 @@ async function enviarParaServidor() {
     }
 }
 
-// Mostra mensagens para o usuário
+/* Mostra mensagens para o usuário */
 function mostrarMensagem(mensagem, tipo = 'info') {
-    // Remove mensagens existentes
+    
+    /* Remove mensagens existentes */
     const mensagensExistentes = document.querySelectorAll('.mensagem-sistema');
     mensagensExistentes.forEach(msg => msg.remove());
 
-    // Cria nova mensagem
+    /* Cria nova mensagem */
     const divMensagem = document.createElement('div');
     divMensagem.className = `mensagem-sistema mensagem-${tipo}`;
     divMensagem.innerHTML = `
@@ -371,7 +373,7 @@ function mostrarMensagem(mensagem, tipo = 'info') {
         <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer; margin-left: 1rem;">&times;</button>
     `;
 
-    // Adiciona estilos
+    /* Adiciona estilos */
     Object.assign(divMensagem.style, {
         position: 'fixed',
         top: '20px',
@@ -388,7 +390,7 @@ function mostrarMensagem(mensagem, tipo = 'info') {
         animation: 'slideInRight 0.3s ease'
     });
 
-    // Define cor baseada no tipo
+    /* Define cor baseada no tipo */
     switch (tipo) {
         case 'success':
             divMensagem.style.backgroundColor = '#28a745';
@@ -406,7 +408,7 @@ function mostrarMensagem(mensagem, tipo = 'info') {
 
     document.body.appendChild(divMensagem);
 
-    // Remove automaticamente após 5 segundos
+    /* Remove automaticamente após 5 segundos */
     setTimeout(() => {
         if (divMensagem.parentElement) {
             divMensagem.style.animation = 'slideOutRight 0.3s ease';
@@ -415,7 +417,7 @@ function mostrarMensagem(mensagem, tipo = 'info') {
     }, 5000);
 }
 
-// Adiciona estilos adicionais específicos da lista
+/* Adiciona estilos adicionais específicos da lista */
 const style = document.createElement('style');
 style.textContent = `
     .lista-vazia {
