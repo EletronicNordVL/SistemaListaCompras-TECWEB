@@ -28,8 +28,6 @@ O repositório está organizado em módulos numerados conforme a estrutura abaix
     └── README.md
 ```
 
----
-
 ## 🚀 Funcionalidades Principais
 
 ### 📦 1. Módulo de Cadastro (`01 - CADASTRO`)
@@ -53,15 +51,11 @@ O repositório está organizado em módulos numerados conforme a estrutura abaix
 - **Componentes Avançados**: Modais sobrepostos [34], notificações no estilo *toast* [9, 23] e badges de status [36].
 - **Responsividade**: Adaptação para dispositivos móveis via Media Queries `@media (max-width: 768px)` [37].
 
----
-
 ## 🛠️ Tecnologias Utilizadas
 
 - **HTML5**: Estruturação semântica das páginas (`<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`).
 - **CSS3**: Layouts com Flexbox e CSS Grid, transições, animações (`@keyframes`) e responsividade [26, 28, 37].
 - **JavaScript ES6+**: Manipulação do DOM, eventos, `localStorage`, `FormData`, Arrow Functions, Async/Await e `fetch` API [1, 3, 22].
-
----
 
 ## 💻 Como Executar o Projeto
 
