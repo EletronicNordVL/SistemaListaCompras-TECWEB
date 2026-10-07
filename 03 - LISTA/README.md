@@ -2,14 +2,10 @@
 
 Este módulo contém a interface e a inteligência de controle da **lista de compras e envio dos dados ao servidor** [11].
 
----
-
 ## 📄 Arquivos Presentes
 
 - **`lista.html`**: Estrutura da página com controles da lista, barra de progresso, container dos itens e janelas modais de adição e confirmação.
-- **`lista.js`**: Lógica para controle da lista, cálculo do progresso de itens coletados, controle dos modais e integração HTTP via `fetch` API [11, 13, 18, 20, 22].
-
----
+- **`lista.js`**: Lógica para controle da lista, cálculo do progresso de itens coletados, controle dos modais e integração HTTP via `fetch` API [11,13,18,20,22].
 
 ## ⚙️ Funcionalidades e Regras de Negócio
 
