@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras - Fazer Compras</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sistema de Lista de Compras</h1>
+        <nav>
+            <a href="cadastro.html">Cadastro</a>
+            <a href="lista.html" class="active">Lista de Compras</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="lista-section">
+            <h2>Minha Lista de Compras</h2>
+            
+            <div class="lista-controles">
+                <button id="btnAdicionarItem" class="btn-primary">Adicionar Item</button>
+                <button id="btnEnviarServidor" class="btn-success" disabled>Enviar para Servidor</button>
+                <button id="btnLimparLista" class="btn-danger">Limpar Lista</button>
+            </div>
+
+            <div class="progresso-container">
+                <div class="progresso-info">
+                    <span id="progressoTexto">0 de 0 itens coletados</span>
+                </div>
+                <div class="barra-progresso">
+                    <div id="barraProgresso" class="progresso-fill"></div>
+                </div>
+            </div>
+
+            <div class="lista-compras" id="listaCompras">
+                <!-- Itens da lista serão inseridos aqui via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Modal para adicionar produtos à lista -->
+        <div id="modalAdicionar" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Adicionar Produto à Lista</h3>
+                    <span class="close" id="closeModal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="selectProduto">Selecione o Produto:</label>
+                        <select id="selectProduto" required>
+                            <option value="">Escolha um produto</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidadeNecessaria">Quantidade Necessária:</label>
+                        <input type="number" id="quantidadeNecessaria" min="1" step="0.01" required>
+                    </div>
+                    <div class="form-buttons">
+                        <button id="btnConfirmarAdicao" class="btn-primary">Adicionar</button>
+                        <button id="btnCancelarAdicao" class="btn-secondary">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de confirmação de envio -->
+        <div id="modalConfirmacao" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Confirmar Envio</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja realmente enviar a lista de compras para o servidor?</p>
+                    <p><strong>Atenção:</strong> A lista atual será limpa após o envio.</p>
+                    <div class="form-buttons">
+                        <button id="btnConfirmarEnvio" class="btn-success">Sim, Enviar</button>
+                        <button id="btnCancelarEnvio" class="btn-secondary">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Sistema de Lista de Compras. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="lista.js"></script>
+</body>
+</html>
